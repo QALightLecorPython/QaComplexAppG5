@@ -38,7 +38,7 @@ class TestStartPage:
 
         # Open page
         driver.get("https://qa-complex-app-for-testing.herokuapp.com/")
-        self.log.info("Open page")
+        self.log.info("Open start page")
 
         # Fill login
         login = driver.find_element(by=By.XPATH, value=".//input[@placeholder='Username']")
@@ -76,7 +76,7 @@ class TestStartPage:
 
         # Open page
         driver.get("https://qa-complex-app-for-testing.herokuapp.com/")
-        self.log.info("Open page")
+        self.log.info("Open start page")
 
         # Fill login
         login = driver.find_element(by=By.XPATH, value=".//input[@placeholder='Username']")
@@ -115,7 +115,7 @@ class TestStartPage:
 
         # Open start page
         driver.get("https://qa-complex-app-for-testing.herokuapp.com")
-        self.log.info("Open page")
+        self.log.info("Open start page")
 
         # Fill username
         user = self.random_str()
