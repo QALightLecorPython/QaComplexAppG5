@@ -1,0 +1,5 @@
+/venv3.9/
+.pytest_cache
+.idea
+/venv/
+__pycache__/
