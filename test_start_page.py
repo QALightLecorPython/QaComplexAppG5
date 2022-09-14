@@ -38,6 +38,7 @@ class TestStartPage:
 
         # Open page
         driver.get("https://qa-complex-app-for-testing.herokuapp.com/")
+        self.log.info("Open start page")
 
         # Fill login
         login = driver.find_element(by=By.XPATH, value=".//input[@placeholder='Username']")
@@ -75,6 +76,7 @@ class TestStartPage:
 
         # Open page
         driver.get("https://qa-complex-app-for-testing.herokuapp.com/")
+        self.log.info("Open start page")
 
         # Fill login
         login = driver.find_element(by=By.XPATH, value=".//input[@placeholder='Username']")
@@ -113,7 +115,7 @@ class TestStartPage:
 
         # Open start page
         driver.get("https://qa-complex-app-for-testing.herokuapp.com")
-        self.log.debug("Open page")
+        self.log.info("Open start page")
 
         # Fill username
         user = self.random_str()
@@ -147,5 +149,3 @@ class TestStartPage:
         assert hello_message.text == f"Hello {username_value.lower()}, your feed is empty."
         assert driver.find_element(by=By.XPATH, value=".//strong").text == username_value.lower()
         self.log.info("Registration for user '%s' was success and verified", username_value)
-
-        self.log.info(driver.current_url)
