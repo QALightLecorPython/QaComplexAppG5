@@ -3,6 +3,7 @@ import random
 import string
 from time import sleep
 
+import selenium as selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -149,3 +150,11 @@ class TestStartPage:
         assert hello_message.text == f"Hello {username_value.lower()}, your feed is empty."
         assert driver.find_element(by=By.XPATH, value=".//strong").text == username_value.lower()
         self.log.info("Registration for user '%s' was success and verified", username_value)
+
+    def is_exists(self, driver, xpath):
+        """Check that element exists"""
+        try:
+            driver.find_element(by=By.XPATH, value=xpath)
+            return True
+        except selenium.common.exceptions.NoSuchElementException:
+            return False
