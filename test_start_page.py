@@ -1,27 +1,49 @@
 import logging
-import random
-import string
-from time import sleep
 
-import selenium as selenium
+import pytest
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+
+from constants.base import DRIVER_PATH, BASE_URL
+from pages.start_page import StartPage
+from pages.utils import random_str, random_num
 
 
 class TestStartPage:
     log = logging.getLogger("[StartPage]")
 
-    @staticmethod
-    def random_num():
-        """Generate random number"""
-        return str(random.randint(111111, 999999))
+    @pytest.fixture(scope="function")
+    def start_page(self):
+        # Pre-conditions
+        driver = webdriver.Chrome(DRIVER_PATH)
+        driver.get(BASE_URL)
+        # Steps
+        yield StartPage(driver)
+        # Post-conditions
+        driver.close()
 
-    @staticmethod
-    def random_str(length=5):
-        """Generate random string"""
-        return ''.join(random.choice(string.ascii_letters) for _ in range(length))
+    @pytest.fixture(scope="function")
+    def start_page(self):
+        # Pre-conditions
+        driver = webdriver.Chrome(DRIVER_PATH)
+        driver.get(BASE_URL)
+        # Steps
 
-    def test_incorrect_login(self):
+    @pytest.fixture(scope="function")
+    def start_page(self):
+        # Pre-conditions
+        driver = webdriver.Chrome(DRIVER_PATH)
+        driver.get(BASE_URL)
+        # Steps
+        return StartPage(driver)
+
+    @pytest.fixture(scope="function")
+    def start_page(self):
+        # Steps
+        yield
+        # Post-conditions
+        # Some actions
+
+    def test_incorrect_login(self, start_page):
         """
         - Pre-conditions:
             - Create driver
@@ -34,36 +56,15 @@ class TestStartPage:
         - Post-conditions:
             - Close driver
         """
-        # Create driver
-        driver = webdriver.Chrome("/Users/deniskondratuk/PycharmProjects/QaComplexAppG5/chromedriver")
-
-        # Open page
-        driver.get("https://qa-complex-app-for-testing.herokuapp.com/")
-        self.log.info("Open start page")
-
-        # Fill login
-        login = driver.find_element(by=By.XPATH, value=".//input[@placeholder='Username']")
-        login.send_keys("User11")
-        sleep(1)
-
-        # Fill password
-        password = driver.find_element(by=By.XPATH, value=".//input[@placeholder='Password']")
-        password.send_keys("Psw11")
-        sleep(1)
-
-        # Click button
-        button = driver.find_element(by=By.XPATH, value=".//button[text()='Sign In']")
-        button.click()
-        sleep(1)
+        # Login as a user
+        start_page.sign_in("User11", "Psw11")
+        self.log.info("Logged in as non-existing user")
 
         # Verify error
-        error_element = driver.find_element(by=By.XPATH, value=".//div[@class='alert alert-danger text-center']")
-        assert error_element.text == "Invalid username / pasword", f"Actual message: {error_element.text}"
+        start_page.verify_sign_in_error()
+        self.log.info("Error was verified")
 
-        # Close driver
-        driver.close()
-
-    def test_empty_login(self):
+    def test_empty_login(self, start_page):
         """
         - Create driver
         - Open page
@@ -72,37 +73,15 @@ class TestStartPage:
         - Click button
         - Verify error
         """
-        # Create driver
-        driver = webdriver.Chrome("/Users/deniskondratuk/PycharmProjects/QaComplexAppG5/chromedriver")
-
-        # Open page
-        driver.get("https://qa-complex-app-for-testing.herokuapp.com/")
-        self.log.info("Open start page")
-
-        # Fill login
-        login = driver.find_element(by=By.XPATH, value=".//input[@placeholder='Username']")
-        login.clear()
-        sleep(1)
-
-        # Fill password
-        password = driver.find_element(by=By.XPATH, value=".//input[@placeholder='Password']")
-        password.clear()
-        sleep(1)
-
-        # Click button
-        button = driver.find_element(by=By.XPATH, value=".//button[text()='Sign In']")
-        button.click()
-        sleep(1)
+        # Login as a user
+        start_page.sign_in("", "")
+        self.log.info("Logged in as non-existing user")
 
         # Verify error
-        error_element = driver.find_element(by=By.XPATH, value=".//div[@class='alert alert-danger text-center']")
-        assert error_element.is_displayed()
-        assert error_element.text == "Invalid username / pasword", f"Actual message: {error_element.text}"
+        start_page.verify_sign_in_error()
+        self.log.info("Error was verified")
 
-        # Close driver
-        driver.close()
-
-    def test_register(self):
+    def test_register(self, start_page):
         """
         - Pre-conditions:
             - Open start page
@@ -111,50 +90,16 @@ class TestStartPage:
             - Click on Sign Up button
             - Verify registration is successful
         """
-        # Create driver
-        driver = webdriver.Chrome("/Users/deniskondratuk/PycharmProjects/QaComplexAppG5/chromedriver")
+        # Prepare data
+        user = random_str()
+        username_value = f"{user}{random_num()}"
+        email_value = f"{user}{random_num()}@mail.com"
+        password_value = f"{random_str(6)}{random_num()}"
 
-        # Open start page
-        driver.get("https://qa-complex-app-for-testing.herokuapp.com")
-        self.log.info("Open start page")
+        # Sign Up as a user
+        start_page.sign_up(username_value, email_value, password_value)
+        self.log.info("Signed Up as user %s", username_value)
 
-        # Fill username
-        user = self.random_str()
-        username_value = f"{user}{self.random_num()}"
-        username = driver.find_element(by=By.XPATH, value=".//input[@id='username-register']")
-        username.clear()
-        username.send_keys(username_value)
-
-        # Fill email
-        email_value = f"{user}{self.random_num()}@mail.com"
-        email = driver.find_element(by=By.XPATH, value=".//input[@id='email-register']")
-        email.clear()
-        email.send_keys(email_value)
-
-        # Fill password
-        password_value = f"{self.random_str(6)}{self.random_num()}"
-        password = driver.find_element(by=By.XPATH, value=".//input[@id='password-register']")
-        password.clear()
-        password.send_keys(password_value)
-        self.log.info("Fields were filled")
-        sleep(1)
-
-        # Click on Sign Up button
-        driver.find_element(by=By.XPATH, value=".//button[@type='submit']").click()
-        self.log.info("User was registered")
-        sleep(1)
-
-        # Verify register success
-        hello_message = driver.find_element(by=By.XPATH, value=".//h2")
-        assert username_value.lower() in hello_message.text
-        assert hello_message.text == f"Hello {username_value.lower()}, your feed is empty."
-        assert driver.find_element(by=By.XPATH, value=".//strong").text == username_value.lower()
-        self.log.info("Registration for user '%s' was success and verified", username_value)
-
-    def is_exists(self, driver, xpath):
-        """Check that element exists"""
-        try:
-            driver.find_element(by=By.XPATH, value=xpath)
-            return True
-        except selenium.common.exceptions.NoSuchElementException:
-            return False
+        # Verify success message
+        start_page.verify_success_sign_up(username_value)
+        self.log.info("Hello message was verified")
