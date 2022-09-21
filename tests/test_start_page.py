@@ -16,32 +16,11 @@ class TestStartPage:
         # Pre-conditions
         driver = webdriver.Chrome(DRIVER_PATH)
         driver.get(BASE_URL)
+        driver.implicitly_wait(1)
         # Steps
         yield StartPage(driver)
         # Post-conditions
         driver.close()
-
-    @pytest.fixture(scope="function")
-    def start_page(self):
-        # Pre-conditions
-        driver = webdriver.Chrome(DRIVER_PATH)
-        driver.get(BASE_URL)
-        # Steps
-
-    @pytest.fixture(scope="function")
-    def start_page(self):
-        # Pre-conditions
-        driver = webdriver.Chrome(DRIVER_PATH)
-        driver.get(BASE_URL)
-        # Steps
-        return StartPage(driver)
-
-    @pytest.fixture(scope="function")
-    def start_page(self):
-        # Steps
-        yield
-        # Post-conditions
-        # Some actions
 
     def test_incorrect_login(self, start_page):
         """
@@ -97,9 +76,9 @@ class TestStartPage:
         password_value = f"{random_str(6)}{random_num()}"
 
         # Sign Up as a user
-        start_page.sign_up(username_value, email_value, password_value)
+        hello_page = start_page.sign_up_and_verify(username_value, email_value, password_value)
         self.log.info("Signed Up as user %s", username_value)
 
         # Verify success message
-        start_page.verify_success_sign_up(username_value)
+        hello_page.verify_success_sign_up(username_value)
         self.log.info("Hello message was verified")
