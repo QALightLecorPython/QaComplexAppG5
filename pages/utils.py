@@ -4,6 +4,8 @@ import random
 import string
 from time import sleep
 
+from constants.create_post_page import CreatePostPageConsts
+
 
 def random_num():
     """Generate random number"""
@@ -67,9 +69,11 @@ class User:
 
 class Post:
 
-    def __init__(self, title="", body=""):
+    def __init__(self, title="", body="", unique=False, private=CreatePostPageConsts.OPTION_ALL_USERS):
         self.title = title
         self.body = body
+        self.unique = unique
+        self.private = private
 
     def fill_default(self):
         """Fill fields using andom data"""
