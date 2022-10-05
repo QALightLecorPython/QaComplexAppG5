@@ -47,3 +47,10 @@ class CreatePostPage(BasePage):
             assert "no" in self.get_element_text(xpath=self.constants.IS_POST_UNIQUE_XPATH)
         # Verify body
         assert self.get_element_text(xpath=self.constants.CREATED_BODY_CONTENT_XPATH.format(body=post.body)) == post.body
+
+    @log_decorator
+    def navigate_to_profile(self, username):
+        """Navigate to author profile"""
+        self.click(self.constants.PROFILE_LINK_XPATH.format(username=username))
+        from pages.profile_page import ProfilePage
+        return ProfilePage(self.driver)
