@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions
 
 from constants.header import HeaderConsts
 from pages.base_page import BasePage
@@ -31,7 +32,9 @@ class Header(BasePage):
         """Navigate to post using search (by title)"""
         self.click(self.constants.SEARCH_BUTTON_XPATH)
         self.fill_field(xpath=self.constants.SEARCH_INPUT_FIELD_XPATH, value=title + Keys.ENTER)
-        results = self.driver.find_elements(by=By.XPATH, value=self.constants.SEARCH_RESULTS_XPATH)
+
+        results = self.waiter.until(method=expected_conditions.visibility_of_all_elements_located((By.XPATH, self.constants.SEARCH_RESULTS_XPATH)),
+                                    message=f"XPATH (elements): '{self.constants.SEARCH_RESULTS_XPATH}' is not clickable or cannot be found")
         for result in results:
             if result.text == title:
                 result.click()

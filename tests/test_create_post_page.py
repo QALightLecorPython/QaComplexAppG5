@@ -1,11 +1,15 @@
 import logging
 
+import allure
 import pytest
+from allure_commons.types import Severity
 
+from constants.base import CHROME, FIREFOX
 from constants.create_post_page import CreatePostPageConsts
 from pages.utils import Post, random_str
 
 
+@pytest.mark.parametrize("browser", [CHROME, FIREFOX])
 class TestCreatePostPage:
     log = logging.getLogger("[CreatePostPage]")
 
@@ -14,6 +18,10 @@ class TestCreatePostPage:
         """Sign Up as the user and return the page"""
         return start_page.sign_up_and_verify(random_user)
 
+    @allure.epic("Create Post Page")
+    @allure.feature("Create post")
+    @allure.story("Test post creation")
+    @allure.severity(Severity.CRITICAL)
     def test_create_post_page(self, hello_page):
         """
         - Pre-conditions:
@@ -34,6 +42,10 @@ class TestCreatePostPage:
         # Verify the result
         create_post_page.verify_successfully_created()
 
+    @allure.epic("Create Post Page")
+    @allure.feature("Create post")
+    @allure.story("Test post creation")
+    @allure.severity(Severity.MINOR)
     def test_create_full_post(self, hello_page):
         """
         - Pre-conditions:

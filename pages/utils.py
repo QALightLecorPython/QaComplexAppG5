@@ -4,6 +4,9 @@ import random
 import string
 from time import sleep
 
+from selenium import webdriver
+
+from constants.base import CHROME, FIREFOX
 from constants.create_post_page import CreatePostPageConsts
 
 
@@ -58,6 +61,7 @@ class User:
         self.username = username
         self.email = email
         self.password = password
+        self.posts = []
 
     def fill_data(self, username="", email="", password=""):
         """Fill user with sample data and values if provided"""
@@ -79,3 +83,19 @@ class Post:
         """Fill fields using andom data"""
         self.title = random_str(15)
         self.body = random_str(200)
+
+
+def create_driver(browser):
+    """Create driver qccording to provided browser"""
+    if browser == CHROME:
+        options = webdriver.ChromeOptions()
+        # options.add_argument("headless")
+        driver = webdriver.Chrome(options=options)
+    elif browser == FIREFOX:
+        options = webdriver.FirefoxOptions()
+        options.add_argument("--headless")
+        driver = webdriver.Firefox(options=options)
+    else:
+        raise ValueError(f"Unknown browser name: '{browser}'")
+    driver.implicitly_wait(1)
+    return driver
