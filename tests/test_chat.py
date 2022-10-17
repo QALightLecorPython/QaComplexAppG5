@@ -1,10 +1,14 @@
 import logging
 
+import allure
 import pytest
+from allure_commons.types import Severity
 
+from constants.base import CHROME, FIREFOX
 from pages.utils import random_str
 
 
+@pytest.mark.parametrize("browser", [CHROME, FIREFOX])
 class TestChat:
     log = logging.getLogger("[CreatePostPage]")
 
@@ -13,6 +17,10 @@ class TestChat:
         """Sign Up as the user and return the page"""
         return start_page.sign_up_and_verify(random_user)
 
+    @allure.epic("Chat")
+    @allure.feature("Send messages")
+    @allure.story("Test chat messages sending")
+    @allure.severity(Severity.CRITICAL)
     def test_chat(self, hello_page):
         """
         - Pre-conditions:
