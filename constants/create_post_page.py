@@ -13,5 +13,7 @@ class CreatePostPageConsts:
     CREATED_TITLE_XPATH = ".//h2"
     CREATED_VISIBILITY_VALUE_XPATH = ".//u"
     IS_POST_UNIQUE_XPATH = ".//p[contains(text(), 'Is this post unique?')]"
-    CREATED_BODY_CONTENT_XPATH = ".//div[@class='body-content']/p[contains(text(), '{body}')]"
+    CREATED_BODY_CONTENT_XPATH = (
+        ".//div[@class='body-content']/p[contains(text(), '{body}')]"
+    )
     PROFILE_LINK_XPATH = ".//a[@href='/profile/{username}']"

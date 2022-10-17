@@ -58,7 +58,12 @@ class TestCreatePostPage:
         create_post_page = hello_page.header.navigate_to_create_post_page()
 
         # Create Post
-        post = Post(title=random_str(15), body=random_str(20), unique=True, private=CreatePostPageConsts.OPTION_GROUP_MESSAGE)
+        post = Post(
+            title=random_str(15),
+            body=random_str(20),
+            unique=True,
+            private=CreatePostPageConsts.OPTION_GROUP_MESSAGE,
+        )
         create_post_page.create_post(post)
 
         # Verify the result

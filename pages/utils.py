@@ -17,7 +17,7 @@ def random_num():
 
 def random_str(length=5):
     """Generate random string"""
-    return ''.join(random.choice(string.ascii_letters) for _ in range(length))
+    return "".join(random.choice(string.ascii_letters) for _ in range(length))
 
 
 def wait_until_ok(timeout=5, period=0.5):
@@ -56,7 +56,6 @@ def log_decorator(original_function):
 
 
 class User:
-
     def __init__(self, username="", email="", password=""):
         self.username = username
         self.email = email
@@ -72,8 +71,13 @@ class User:
 
 
 class Post:
-
-    def __init__(self, title="", body="", unique=False, private=CreatePostPageConsts.OPTION_ALL_USERS):
+    def __init__(
+            self,
+            title="",
+            body="",
+            unique=False,
+            private=CreatePostPageConsts.OPTION_ALL_USERS,
+    ):
         self.title = title
         self.body = body
         self.unique = unique

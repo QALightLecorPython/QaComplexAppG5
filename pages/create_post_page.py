@@ -4,11 +4,11 @@ from pages.utils import log_decorator
 
 
 class CreatePostPage(BasePage):
-
     def __init__(self, driver):
         super().__init__(driver)
         self.constants = CreatePostPageConsts()
         from pages.header import Header
+
         self.header = Header(self.driver)
 
     @log_decorator
@@ -22,35 +22,53 @@ class CreatePostPage(BasePage):
         # Click on list
         self.click(xpath=self.constants.VISIBILITY_LIST_XPATH)
         # Click on option
-        self.click(self.constants.VISIBILITY_SELECTION_XPATH.format(option=post.private))
+        self.click(
+            self.constants.VISIBILITY_SELECTION_XPATH.format(option=post.private)
+        )
         self.click(xpath=self.constants.CREATE_POST_BUTTON_XPATH)
 
     @log_decorator
     def verify_successfully_created(self):
         """Verify success message"""
-        assert self.get_element_text(xpath=self.constants.SUCCESS_MESSAGE_XPATH) == self.constants.SUCCESS_MESSAGE_TEXT, \
-            f"Actual: {self.get_element_text(xpath=self.constants.SUCCESS_MESSAGE_XPATH)}"
+        assert (
+                self.get_element_text(xpath=self.constants.SUCCESS_MESSAGE_XPATH)
+                == self.constants.SUCCESS_MESSAGE_TEXT
+        ), f"Actual: {self.get_element_text(xpath=self.constants.SUCCESS_MESSAGE_XPATH)}"
 
     @log_decorator
     def verify_full_post_data(self, post):
         """Verify all post fields"""
         # Verify title
-        assert self.get_element_text(xpath=self.constants.CREATED_TITLE_XPATH) == post.title, \
-            f"Actual: {self.get_element_text(xpath=self.constants.CREATED_TITLE_XPATH)}"
+        assert (
+                self.get_element_text(xpath=self.constants.CREATED_TITLE_XPATH)
+                == post.title
+        ), f"Actual: {self.get_element_text(xpath=self.constants.CREATED_TITLE_XPATH)}"
         # Verify private
-        assert self.get_element_text(xpath=self.constants.CREATED_VISIBILITY_VALUE_XPATH) == post.private, \
-            f"Actual: {self.get_element_text(xpath=self.constants.CREATED_VISIBILITY_VALUE_XPATH)}"
+        assert (
+                self.get_element_text(xpath=self.constants.CREATED_VISIBILITY_VALUE_XPATH)
+                == post.private
+        ), f"Actual: {self.get_element_text(xpath=self.constants.CREATED_VISIBILITY_VALUE_XPATH)}"
         # Verify checkbox value
         if post.unique:
-            assert "yes" in self.get_element_text(xpath=self.constants.IS_POST_UNIQUE_XPATH)
+            assert "yes" in self.get_element_text(
+                xpath=self.constants.IS_POST_UNIQUE_XPATH
+            )
         else:
-            assert "no" in self.get_element_text(xpath=self.constants.IS_POST_UNIQUE_XPATH)
+            assert "no" in self.get_element_text(
+                xpath=self.constants.IS_POST_UNIQUE_XPATH
+            )
         # Verify body
-        assert self.get_element_text(xpath=self.constants.CREATED_BODY_CONTENT_XPATH.format(body=post.body)) == post.body
+        assert (
+                self.get_element_text(
+                    xpath=self.constants.CREATED_BODY_CONTENT_XPATH.format(body=post.body)
+                )
+                == post.body
+        )
 
     @log_decorator
     def navigate_to_profile(self, username):
         """Navigate to author profile"""
         self.click(self.constants.PROFILE_LINK_XPATH.format(username=username))
         from pages.profile_page import ProfilePage
+
         return ProfilePage(self.driver)

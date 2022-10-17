@@ -7,7 +7,6 @@ from pages.utils import log_decorator
 
 
 class ProfilePage(BasePage):
-
     def __init__(self, driver):
         super().__init__(driver)
         self.constants = ProfilePageConsts()
@@ -22,9 +21,12 @@ class ProfilePage(BasePage):
     def verify_followings(self, current_user, usernames):
         """Verify usernames in followings"""
         tab_xpath = self.constants.FOLLOWING_TAB_XPATH.format(username=current_user)
-        assert str(len(usernames)) in self.get_element_text(tab_xpath), \
-            f"Actual: {self.get_element_text(tab_xpath)}"
+        assert str(len(usernames)) in self.get_element_text(
+            tab_xpath
+        ), f"Actual: {self.get_element_text(tab_xpath)}"
         self.click(tab_xpath)
-        users = self.driver.find_elements(by=By.XPATH, value=self.constants.FOLLOWINGS_USERS_XPATH)
+        users = self.driver.find_elements(
+            by=By.XPATH, value=self.constants.FOLLOWINGS_USERS_XPATH
+        )
         actual_usernames = [user.text for user in users]
         assert actual_usernames == usernames
