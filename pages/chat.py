@@ -20,6 +20,7 @@ class Chat(BasePage):
     @log_decorator
     def verify_messages(self, expected_messages):
         """Verify messages"""
+
         messages = self.driver.find_elements(by=By.XPATH, value=self.constants.CHAT_MESSAGES_XPATH)
         messages_text = [message.text for message in messages]
         assert messages_text == expected_messages
