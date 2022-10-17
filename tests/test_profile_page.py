@@ -2,11 +2,11 @@ import allure
 import pytest as pytest
 from allure_commons.types import Severity
 
-from constants.base import CHROME
+from constants.base import CHROME, FIREFOX
 from pages.utils import Post, User
 
 
-@pytest.mark.parametrize("browser", [CHROME])
+@pytest.mark.parametrize("browser", [CHROME, FIREFOX])
 class TestProfilePage:
 
     @pytest.fixture()

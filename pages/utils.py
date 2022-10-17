@@ -89,7 +89,7 @@ def create_driver(browser):
     """Create driver qccording to provided browser"""
     if browser == CHROME:
         options = webdriver.ChromeOptions()
-        # options.add_argument("headless")
+        options.add_argument("headless")
         driver = webdriver.Chrome(options=options)
     elif browser == FIREFOX:
         options = webdriver.FirefoxOptions()
