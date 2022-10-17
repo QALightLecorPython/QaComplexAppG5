@@ -22,6 +22,7 @@ jobs:
         run: |
           python -m pylint tests pages
       - name: Run Black
+        if: always()
         uses: wearerequired/lint-action@v1
         with:
           black: true
