@@ -8,6 +8,7 @@ class CreatePostPageConsts:
     UNIQUE_POST_CHECKBOX_XPATH = ".//input[@name='uniquePost']"
     VISIBILITY_LIST_XPATH = ".//select[@id='select1']"
     OPTION_ALL_USERS = "All Users"
+
     OPTION_GROUP_MESSAGE = "Group Message"
     OPTION_ONE_PERSON = "One Person"
     VISIBILITY_SELECTION_XPATH = ".//option[@value='{option}']"
