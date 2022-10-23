@@ -13,6 +13,8 @@ from pages.utils import Post, random_str
 class TestCreatePostPage:
     log = logging.getLogger("[CreatePostPage]")
 
+    # pylint: disable=R0201
+    # Note: I don't want to do it
     @pytest.fixture()
     def hello_page(self, start_page, random_user):
         """Sign Up as the user and return the page"""
