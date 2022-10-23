@@ -9,7 +9,7 @@ from pages.utils import User, create_driver
 
 
 def pytest_sessionstart(session):
-    os.environ["PATH"] = (os.environ["PATH"] + f":{os.path.abspath(DRIVER_PATH)}")
+    os.environ["PATH"] = os.environ["PATH"] + f":{os.path.abspath(DRIVER_PATH)}"
 
 
 @pytest.fixture(scope="function")
@@ -37,7 +37,11 @@ def pytest_runtest_makereport(item, call):
     result = outcome.get_result()
 
     if result.failed:
-        driver = [item.funcargs[arg] for arg in item.funcargs if arg.endswith("_page")][0].driver  # hello_page.driver
+        driver = [item.funcargs[arg] for arg in item.funcargs if arg.endswith("_page")][
+            0
+        ].driver  # hello_page.driver
         file_name = f"{item.name}_{datetime.datetime.now().strftime('%H-%M-%S')}.png"
-        file_path = "/Users/deniskondratuk/PycharmProjects/G5/QaComplexAppG5/screenshots"
+        file_path = (
+            "/Users/deniskondratuk/PycharmProjects/G5/QaComplexAppG5/screenshots"
+        )
         driver.save_screenshot(os.path.join(file_path, file_name))

@@ -2,13 +2,12 @@ import allure
 import pytest as pytest
 from allure_commons.types import Severity
 
-from constants.base import CHROME
+from constants.base import CHROME, FIREFOX
 from pages.utils import Post, User
 
 
-@pytest.mark.parametrize("browser", [CHROME])
+@pytest.mark.parametrize("browser", [CHROME, FIREFOX])
 class TestProfilePage:
-
     @pytest.fixture()
     def hello_page(self, start_page, random_user):
         """Sign Up as the user and return the page"""
@@ -70,4 +69,7 @@ class TestProfilePage:
         profile_page.header.navigate_to_my_profile()
 
         # Verify following tab
-        profile_page.verify_followings(current_user=random_user.username.lower(), usernames=[user_with_post.username.lower()])
+        profile_page.verify_followings(
+            current_user=random_user.username.lower(),
+            usernames=[user_with_post.username.lower()],
+        )

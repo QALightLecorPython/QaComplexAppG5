@@ -9,7 +9,6 @@ from pages.utils import log_decorator
 
 
 class Header(BasePage):
-
     def __init__(self, driver):
         super().__init__(driver)
         self.constants = HeaderConsts()
@@ -19,6 +18,7 @@ class Header(BasePage):
         """Click on create post button"""
         self.click(self.constants.CREATE_POST_BUTTON_XPATH)
         from pages.create_post_page import CreatePostPage
+
         return CreatePostPage(self.driver)
 
     @log_decorator
@@ -31,14 +31,21 @@ class Header(BasePage):
     def navigate_to_post_via_search(self, title):
         """Navigate to post using search (by title)"""
         self.click(self.constants.SEARCH_BUTTON_XPATH)
-        self.fill_field(xpath=self.constants.SEARCH_INPUT_FIELD_XPATH, value=title + Keys.ENTER)
+        self.fill_field(
+            xpath=self.constants.SEARCH_INPUT_FIELD_XPATH, value=title + Keys.ENTER
+        )
 
-        results = self.waiter.until(method=expected_conditions.visibility_of_all_elements_located((By.XPATH, self.constants.SEARCH_RESULTS_XPATH)),
-                                    message=f"XPATH (elements): '{self.constants.SEARCH_RESULTS_XPATH}' is not clickable or cannot be found")
+        results = self.waiter.until(
+            method=expected_conditions.visibility_of_all_elements_located(
+                (By.XPATH, self.constants.SEARCH_RESULTS_XPATH)
+            ),
+            message=f"XPATH (elements): '{self.constants.SEARCH_RESULTS_XPATH}' is not clickable or cannot be found",
+        )
         for result in results:
             if result.text == title:
                 result.click()
         from pages.create_post_page import CreatePostPage
+
         return CreatePostPage(self.driver)
 
     @log_decorator
@@ -46,6 +53,7 @@ class Header(BasePage):
         """Sign Out from user account"""
         self.click(self.constants.SIGN_OUT_BUTTON_XPATH)
         from pages.start_page import StartPage
+
         return StartPage(self.driver)
 
     @log_decorator
@@ -53,4 +61,5 @@ class Header(BasePage):
         """Navigate to My Profile"""
         self.click(self.constants.MY_PROFILE_BUTTON_XPATH)
         from pages.profile_page import ProfilePage
+
         return ProfilePage(self.driver)
