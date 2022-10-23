@@ -1,5 +1,5 @@
 import allure
-import pytest as pytest
+import pytest
 from allure_commons.types import Severity
 
 from constants.base import CHROME, FIREFOX

@@ -1,6 +1,6 @@
 from constants.create_post_page import CreatePostPageConsts
 from pages.base_page import BasePage
-from pages.utils import log_decorator
+from pages.utils import log_decorator, Post
 
 
 class CreatePostPage(BasePage):
@@ -36,7 +36,7 @@ class CreatePostPage(BasePage):
         ), f"Actual: {self.get_element_text(xpath=self.constants.SUCCESS_MESSAGE_XPATH)}"
 
     @log_decorator
-    def verify_full_post_data(self, post):
+    def verify_full_post_data(self, post: Post):
         """Verify all post fields"""
         # Verify title
         assert (
